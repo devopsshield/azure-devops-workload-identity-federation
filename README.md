@@ -160,7 +160,7 @@ You may ignore this as Azure Stack is not supported (see [Create an Azure Resour
 ```
 generates a summary such as:
 ![summary](./media/summary%20after%20production%20run.png)
-1. You may need to iterate a few times. Don't worry, the script is idempotent. Eventually, we got:
+1. You may need to iterate a few times. Don't worry, the script is eventually consistent (then idempotent). Eventually, we got:
 ![after someiterations](./media/may_need_to_iterate_a_few_times.png)
 This is great as we have managed to convert a large majority of our service connections automatically thus saving us lots of time!
 
