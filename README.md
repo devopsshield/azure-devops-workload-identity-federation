@@ -99,6 +99,19 @@ az ad app federated-credential create --id $appObjectId --parameters credential.
 ```
 Bear in mind that the script [Convert-ServicePrincipals.ps1](scripts/Convert-ServicePrincipals.ps1) automatically handles this case and will pre-create the necessary federated credentials prior to attempting a conversion for a manual Service Principal.
 
+## Verify and Save
+
+1. It's important to "Verify and Save" the newly converted service connections, especially for the *manual service principals* that got converted!
+![verify and save](./media/verify_and_save.png)
+1. If you see an error such as the one above:
+```
+Failed to query service connection API: 'https://management.azure.com/subscriptions/********-****-****-****-************?api-version=2016-06-01'. Status Code: 'Forbidden', Response from server: '{"error":{"code":"AuthorizationFailed","message":"The client 'dd5*****-****-****-****-************' with object id 'dd5*****-****-****-****-************' does not have authorization to perform action 'Microsoft.Resources/subscriptions/read' over scope '/subscriptions/********-****-****-****-************' or the scope is invalid. If access was recently granted, please refresh your credentials."}}'
+```
+1. You will need to update the RBAC permissions of the corresponding app registration (service principal). This can be done in the Azure Portal or through the command line.
+1. Finally, it's always a good idea to test a pipeline that uses the service connection post conversion to ensure everything is in working order.
+![service connection test](/media/service_connection_test_1.png)
+![service connection test success](/media/service_connection_test_1_success.png)
+
 ## Conversion of manual service principals referenced by multiple service connections
 
 As mentioned in [Establishing order through naming conventions](https://github.com/devopsshield/azure-devops-service-connection#establishing-order-through-naming-conventions), it is not recommended to have a single app registration referenced by multiple service connections. However, the script will convert the multiple service connections leveraging multiple federated credentials such as:
