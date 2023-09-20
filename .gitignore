@@ -396,3 +396,20 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# ignore these files not to checkin sensitive files
+/data/appRegistrations.json
+/data/export_data_kql.csv
+/data/servicePrincipals.json
+/data/appRegToRefSvcConn.json
+/data/appRegToRefSvcConnPrePop.json
+/data/dirtyDozen.txt
+/data/appRegistrationRefServiceConnectionsBookkeeping.csv
+/data/sampleArmConnectionAppRegistrationData.json
+/data/sampleArmConnectionAppRegistrationDataCreatedManually.json
+/data/sampleEndpointData.json
+/data/sampleEndpointDataCreatedManually.json
+/data/orphans.txt
+
+organizations_*.json
+scripts/credential.json

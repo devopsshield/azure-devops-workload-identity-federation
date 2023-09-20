@@ -1,0 +1,51 @@
+DataResource_CL 
+| where TimeGenerated > ago(7d)
+| where ResourceType =~ 'endpoint'
+| summarize arg_max(CreatedDate_t, *) by ReferenceName1_s, ReferenceName2_s, ResourceRefId_s
+| extend EndpointType=tostring(parse_json(Data_s)["type"])
+| extend spnObjectId=tostring(parse_json(Data_s)["data"]["spnObjectId"])
+| extend appObjectId=tostring(parse_json(Data_s)["data"]["appObjectId"])
+| extend authorizationScheme=tostring(parse_json(Data_s)["authorization"]["scheme"])
+| extend creationMode=tostring(parse_json(Data_s)["data"]["creationMode"])
+| extend workloadIdentityFederationIssuer=tostring(parse_json(Data_s)["authorization"]["parameters"]["workloadIdentityFederationIssuer"])
+| extend workloadIdentityFederationSubject=tostring(parse_json(Data_s)["authorization"]["parameters"]["workloadIdentityFederationSubject"])
+| extend revertSchemeDeadline=tostring(parse_json(Data_s)["data"]["revertSchemeDeadline"])
+| extend AuthenticationMethod = case(authorizationScheme =~ "WorkloadIdentityFederation", strcat("Workload Identity Federation", " (", creationMode, ")"), 
+                       authorizationScheme =~ "ServicePrincipal", strcat("Service Principal", " (", creationMode, ")"), 
+                       authorizationScheme =~ "ManagedServiceIdentity", "Managed Identity",
+                       authorizationScheme =~ "PublishProfile", "Publish Profile",
+                       authorizationScheme)
+| where EndpointType in ('azurerm','AzureRM')
+| project
+    DateCreated=CreatedDate_t,
+    ResourceRefName=ResourceRefName_s,
+    ResourceRefId=ResourceRefId_s,
+    Organization=ReferenceName1_s,
+    Project=ReferenceName2_s,
+    EndpointType,
+    Name=name_s,
+    spnObjectId,
+    appObjectId,
+    authorizationScheme,
+    creationMode,
+    workloadIdentityFederationIssuer,
+    workloadIdentityFederationSubject,
+    revertSchemeDeadline,
+    AuthenticationMethod,
+    OrganizationId=ReferenceId1_g,
+    ProjectId=ReferenceId2_g,
+    EndpointId=id_g,
+    ResourceType,
+    DataType_s,
+    Data_s,
+    Enterprise_s,
+    Tenant_s,
+    ManagementGroup_s,
+    TimeGenerated
+| order by
+    Enterprise_s asc,
+    Tenant_s asc,
+    ManagementGroup_s asc,
+    Organization asc,
+    Project asc,
+    ResourceRefName asc
