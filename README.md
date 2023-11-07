@@ -171,3 +171,4 @@ This is great as we have managed to convert a large majority of our service conn
 - [Get started with Azure DevOps CLI](https://learn.microsoft.com/en-us/azure/devops/cli/?view=azure-devops)
 - [DevOps Shield - Azure Marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/cad4devopsinc1662079207461.devops-shield?src=website&mktcmpid=header)
 - [DevOps Shield](https://www.devopsshield.com)
+- [Azure DevOps Workload Identity Federation on Microsoft Premier Developer Blog](https://devblogs.microsoft.com/premier-developer/azure-devops-workload-identity-federation/)
